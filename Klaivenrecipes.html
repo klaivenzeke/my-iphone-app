@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klaiven Kitchen - Cook Delicious and Easy</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Inter & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        knorr: {
+                            green: '#007a3d',
+                            darkGreen: '#005a2b',
+                            lightGreen: '#e6f3ec',
+                            accent: '#e31837',
+                            yellow: '#ffcc00'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        heading: ['Outfit', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .recipe-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .recipe-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px -10px rgba(0, 122, 61, 0.2);
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #007a3d;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #005a2b;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-knorr-darkGreen text-white text-xs sm:text-sm py-2 px-4 text-center font-medium">
+        <span class="inline-block bg-knorr-accent text-white text-xs px-2 py-0.5 rounded-full font-bold mr-2">TIP</span>
+        Elevate your daily home meals with rich, authentic Klaiven flavor broths and seasonings!
+    </div>
+
+    <!-- Header / Navbar -->
+    <header class="bg-knorr-green text-white shadow-md sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center space-x-3 cursor-pointer" id="brandBtn">
+                    <div class="bg-white px-4 py-1.5 rounded-full shadow-md flex items-center">
+                        <span class="font-heading font-black text-2xl tracking-wider text-knorr-green italic">Klaiven</span>
+                        <span class="text-xs font-bold text-knorr-accent ml-1 uppercase tracking-tighter">Kitchen</span>
+                    </div>
+                </div>
+
+                <div class="hidden md:block flex-1 max-w-md mx-8">
+                    <div class="relative">
+                        <input type="text" id="searchInput" placeholder="Search recipes, dish name..." 
+                            class="w-full pl-10 pr-4 py-2.5 rounded-full text-gray-900 bg-white shadow-inner focus:outline-none focus:ring-2 focus:ring-knorr-yellow text-sm">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-gray-400"></i>
+                    </div>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <button id="savedBtn" class="flex items-center space-x-2 bg-knorr-darkGreen hover:bg-opacity-80 px-4 py-2 rounded-full text-sm font-medium transition">
+                        <i class="fa-solid fa-heart text-knorr-accent"></i>
+                        <span class="hidden sm:inline">Saved Recipes</span>
+                        <span id="savedCount" class="bg-white text-knorr-green font-bold text-xs px-2 py-0.5 rounded-full">0</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="pb-4 md:hidden">
+                <div class="relative">
+                    <input type="text" id="mobileSearchInput" placeholder="Search recipes..." 
+                        class="w-full pl-10 pr-4 py-2 rounded-full text-gray-900 bg-white shadow-inner text-sm focus:outline-none">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-2.5 text-gray-400"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner -->
+    <section class="bg-gradient-to-r from-knorr-darkGreen to-knorr-green text-white py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8">
+            <div class="md:w-1/2 space-y-4 text-center md:text-left">
+                <span class="inline-block bg-knorr-yellow text-knorr-darkGreen font-bold text-xs px-3 py-1 rounded-full uppercase tracking-wider">Chef's Special</span>
+                <h1 class="font-heading text-3xl sm:text-5xl font-extrabold leading-tight">Bring Authentic Flavor to Your Plate</h1>
+                <p class="text-green-100 text-sm sm:text-base">Explore quick, delicious, and savory recipes crafted for homes!</p>
+                <div class="pt-2 flex justify-center md:justify-start gap-3">
+                    <a href="#recipes-grid" class="bg-knorr-accent hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-full shadow-lg transition text-sm">Explore Recipes</a>
+                    <button id="heroCrispyBtn" class="bg-white text-knorr-green hover:bg-gray-100 font-semibold px-6 py-3 rounded-full transition text-sm">Crispy Favorites</button>
+                </div>
+            </div>
+            <div class="md:w-1/2 relative w-full flex justify-center">
+                <div class="relative w-72 h-72 sm:w-80 sm:h-80 rounded-full overflow-hidden shadow-2xl border-4 border-white/20">
+                    <img src="hero.JPG" alt="Klaiven Kitchen Featured Dish" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Filters -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 z-10 relative">
+        <div class="bg-white rounded-2xl shadow-lg p-3 sm:p-4 border border-gray-100">
+            <div class="flex items-center justify-start sm:justify-center space-x-2 overflow-x-auto pb-2 sm:pb-0 scrollbar-none" id="categoryContainer"></div>
+        </div>
+    </section>
+
+    <!-- Main Content Grid -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full" id="recipes-grid">
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h2 class="font-heading text-2xl sm:text-3xl font-bold text-gray-900" id="sectionTitle">All Recipes</h2>
+                <p class="text-sm text-gray-500 mt-1" id="recipeCount">Showing all featured recipes</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8" id="recipeCardsGrid"></div>
+
+        <div id="noResults" class="hidden text-center py-16">
+            <i class="fa-solid fa-utensils text-5xl text-gray-300 mb-4"></i>
+            <h3 class="text-xl font-bold text-gray-700">No recipes found</h3>
+            <p class="text-gray-500 text-sm mt-1">Try adjusting your search terms or filter selection.</p>
+            <button id="resetFiltersBtn" class="mt-4 bg-knorr-green text-white px-5 py-2 rounded-full text-sm font-semibold hover:bg-knorr-darkGreen transition">Reset Filters</button>
+        </div>
+    </main>
+
+    <!-- Recipe Detail Modal -->
+    <div id="recipeModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden items-center justify-center p-3 sm:p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto relative animate-fade-in" id="modalCard">
+            <button id="closeModalBtn" class="absolute top-4 right-4 z-20 bg-white/80 hover:bg-white text-gray-700 w-10 h-10 rounded-full flex items-center justify-center shadow-md transition">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+
+            <div class="relative h-64 sm:h-80 w-full">
+                <img id="modalImg" src="" alt="Recipe Image" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                <div class="absolute bottom-6 left-6 right-6 text-white">
+                    <span id="modalCategory" class="bg-knorr-accent text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">Category</span>
+                    <h2 id="modalTitle" class="font-heading text-2xl sm:text-4xl font-extrabold mt-2 text-white">Recipe Title</h2>
+                    <p id="modalSubtitle" class="text-sm text-gray-200 mt-1">Subtitle narrative</p>
+                </div>
+            </div>
+
+            <div class="p-6 sm:p-8 space-y-8">
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-knorr-lightGreen p-4 rounded-2xl text-center">
+                    <div>
+                        <span class="block text-xs text-gray-500 font-medium">PREP TIME</span>
+                        <span id="modalPrep" class="font-bold text-knorr-darkGreen text-base">15 mins</span>
+                    </div>
+                    <div>
+                        <span class="block text-xs text-gray-500 font-medium">COOK TIME</span>
+                        <span id="modalCook" class="font-bold text-knorr-darkGreen text-base">30 mins</span>
+                    </div>
+                    <div>
+                        <span class="block text-xs text-gray-500 font-medium">SERVINGS</span>
+                        <span id="modalServings" class="font-bold text-knorr-darkGreen text-base">4 servings</span>
+                    </div>
+                    <div>
+                        <span class="block text-xs text-gray-500 font-medium">DIFFICULTY</span>
+                        <span id="modalDifficulty" class="font-bold text-knorr-darkGreen text-base">Easy</span>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-r from-amber-50 to-orange-50 border-l-4 border-knorr-yellow p-4 rounded-r-xl flex items-start space-x-3">
+                    <i class="fa-solid fa-star text-knorr-yellow text-xl mt-0.5"></i>
+                    <div>
+                        <h4 class="font-bold text-gray-800 text-sm uppercase tracking-wide">Flavor Secret</h4>
+                        <p id="modalKnorrSecret" class="text-sm text-gray-600 mt-0.5">Use Klaiven seasonings for maximum broth depth.</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                    <div class="lg:col-span-5 space-y-4">
+                        <div class="flex items-center justify-between border-b pb-2">
+                            <h3 class="font-heading text-xl font-bold text-gray-900">Ingredients</h3>
+                            <span class="text-xs text-gray-400">Check items off as you prep</span>
+                        </div>
+                        <ul id="modalIngredients" class="space-y-2.5 text-sm"></ul>
+                    </div>
+
+                    <div class="lg:col-span-7 space-y-4">
+                        <div class="border-b pb-2">
+                            <h3 class="font-heading text-xl font-bold text-gray-900">Step-by-Step Instructions</h3>
+                        </div>
+                        <ol id="modalSteps" class="space-y-4"></ol>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gray-50 px-6 py-4 rounded-b-3xl border-t flex justify-end">
+                <button id="doneCookingBtn" class="bg-knorr-green hover:bg-knorr-darkGreen text-white px-6 py-2.5 rounded-full text-sm font-semibold transition">
+                    Done Cooking
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-knorr-darkGreen text-white mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div class="space-y-3">
+                    <div class="bg-white inline-block px-3 py-1 rounded-full">
+                        <span class="font-heading font-black text-xl tracking-wider text-knorr-green italic">klaiven</span>
+                    </div>
+                    <p class="text-xs text-green-100 leading-relaxed">Crafting mouthwatering family meals with rich taste for generations. Simple, wholesome, and delicious.</p>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-sm text-knorr-yellow uppercase tracking-wider mb-3">Popular Categories</h4>
+                    <ul class="space-y-2 text-xs text-green-100">
+                        <li><button class="footer-cat-btn hover:text-white transition" data-cat="Filipino Favorites">Filipino Favorites</button></li>
+                        <li><button class="footer-cat-btn hover:text-white transition" data-cat="Fried">Fried & Crispy</button></li>
+                        <li><button class="footer-cat-btn hover:text-white transition" data-cat="Breakfast">Breakfast Favorites</button></li>
+                        <li><button class="footer-cat-btn hover:text-white transition" data-cat="Asian Food">Asian Specialties</button></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-sm text-knorr-yellow uppercase tracking-wider mb-3">Cooking Essentials</h4>
+                    <ul class="space-y-2 text-xs text-green-100">
+                        <li>Klaiven Pork & Beef Broth Cubes</li>
+                        <li>Klaiven Liquid Seasoning</li>
+                        <li>Klaiven Sinigang Mix</li>
+                        <li>Klaiven Chicken Broth</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-bold text-sm text-knorr-yellow uppercase tracking-wider mb-3">Stay Inspired</h4>
+                    <p class="text-xs text-green-100 mb-3">Get delicious recipes delivered directly to your kitchen inbox.</p>
+                    <div class="flex">
+                        <input type="email" placeholder="Your email address" class="px-3 py-2 text-xs text-gray-900 rounded-l-full w-full focus:outline-none">
+                        <button class="bg-knorr-accent hover:bg-red-700 px-4 py-2 text-xs font-bold rounded-r-full transition">Join</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-green-800 pt-6 text-center text-xs text-green-200">
+                <p>© 2026 Klaiven Recipe Showcase Demo. Inspired layout for culinary enthusiasts.</p>
+                <p class="mt-1">For fandom go to <a href="index.html" style="color: #ffcc00; font-weight: bold; text-decoration: underline;">Klaiven Fandom</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Application Logic -->
+    <script>
+        const recipes = [
+            {
+                id: 1,
+                title: "Fried Chicken",
+                category: "Fried",
+                subtitle: "A crispy and juicy fried chicken.",
+                image: "Chicken.JPG",
+                prepTime: "2 hours 20 mins",
+                cookTime: "20-30 mins",
+                servings: "4-6 servings",
+                difficulty: "Medium",
+                rating: 4.6,
+                Secret: "Your love.",
+                ingredients: [
+                    "Chicken: 1 whole chicken (3.5 to 4 lbs), cut into pieces",
+                    "Buttermilk Marinade: 1 quart buttermilk, 3 tbsp hot sauce, 1 tbsp salt",
+                    "Flour Dredge: 3 to 4 cups all-purpose flour, ½ cup cornstarch",
+                    "Seasonings: 1 tbsp salt, 2 tsp black pepper, 1 tbsp garlic powder, 1 tbsp onion powder, 1 tsp cayenne pepper, 1 tsp smoked paprika",
+                    "Frying Medium: Vegetable, canola, or peanut oil (for deep frying)"
+                ],
+                steps: [
+                    "Marinate: Submerge chicken in buttermilk, hot sauce, and salt. Refrigerate for 2 hours.",
+                    "Mix Dredge: Combine flour, cornstarch, and spices in a large bowl.",
+                    "Coat: Lift chicken from marinade, shake off excess, and press into flour mixture.",
+                    "Rest: Place coated pieces on a wire rack for 10–15 minutes.",
+                    "Heat Oil: Heat oil in a deep skillet to 350°F (175°C).",
+                    "Fry: Fry dark meat for 12–15 mins and white meat for 8–10 mins until 165°F (74°C).",
+                    "Drain & Serve: Transfer to wire rack, sprinkle salt, rest, and enjoy!"
+                ]
+            },
+            {
+                id: 2,
+                title: "Filipino Pork Adobo",
+                category: "Filipino Favorites",
+                subtitle: "Iconic savory and tangy pork adobo enriched with a splash of savory magic.",
+                image: "Pork-adobo.JPG",
+                prepTime: "15 mins",
+                cookTime: "40-50 mins",
+                servings: "4-6 servings",
+                difficulty: "Easy",
+                rating: 4.9,
+                Secret: "Nothing beats the classic adobo flavor, but a dash of Klaiven's Liquid Seasoning elevates it to perfection.",
+                ingredients: [
+                    "1 kg pork belly or shoulder, cubed",
+                    "½ cup soy sauce, ⅓ cup vinegar, 1 cup water",
+                    "1 head garlic, crushed",
+                    "3-4 dried bay leaves & 1 tbsp black peppercorns",
+                    "2 tbsp cooking oil"
+                ],
+                steps: [
+                    "Marinate pork with soy sauce and garlic for 30 minutes.",
+                    "Sear pork in hot oil until lightly browned.",
+                    "Pour in marinade, water, bay leaves, and peppercorns. Simmer for 30 mins.",
+                    "Pour in vinegar and boil uncovered for 3-5 mins.",
+                    "Simmer until sauce reduces to a rich glaze."
+                ]
+            },
+            {
+                id: 3,
+                title: "Crispy Liempo",
+                category: "Fried",
+                subtitle: "Crispy, golden-fried liempo served with a side of garlic sauce.",
+                image: "Liempo.JPG",
+                prepTime: "15 mins",
+                cookTime: "20-25 mins",
+                servings: "4-6 servings",
+                difficulty: "Easy",
+                rating: 4.9,
+                Secret: "Simmer in garlic water first before deep frying for ultimate crackling skin.",
+                ingredients: [
+                    "Meat: 1 kg (2.2 lbs) pork belly (liempo), sliced into ½-inch thick strips",
+                    "Marinade: 5 cloves garlic, minced, ¼ cup calamansi juice, ¼ cup soy sauce, 1 tsp fish sauce, 1 tsp cracked black pepper"
+                ],
+                steps: [
+                    "In a large pot, combine the pork belly, crushed garlic, peppercorns, bay leaves, 1 tbsp salt, and water. Bring to a boil, then simmer for 15–20 minutes until tender.",
+                    "Remove pork slices and pat completely dry. Rub 1/2 tbsp salt over skin and meat. Air-dry on a rack for 15–20 minutes.",
+                    "Heat cooking oil in a deep pot over medium-high heat. Fry pork belly for 8–10 minutes per side until blistered and crispy.",
+                    "Transfer to wire rack to drain. Chop into bite-sized pieces and serve hot with garlic-spiced vinegar!"
+                ]
+            },
+            {
+                id: 4,
+                title: "Fluffy Breakfast Pancakes",
+                category: "Breakfast",
+                subtitle: "Golden, soft pancakes served with butter and maple syrup.",
+                image: "Pancake.JPG",
+                prepTime: "10 mins",
+                cookTime: "15 mins",
+                servings: "4 servings",
+                difficulty: "Easy",
+                rating: 4.9,
+                Secret: "Serve hot with butter and warm honey or syrup.",
+                ingredients: [
+                    "1.5 cups All-purpose flour",
+                    "3.5 tsp Baking powder",
+                    "1 cup Milk & 1 Egg",
+                    "3 tbsp Butter, melted"
+                ],
+                steps: [
+                    "Mix dry ingredients in a bowl.",
+                    "Pour milk, egg, and melted butter; whisk until smooth.",
+                    "Pour batter onto a hot oiled griddle.",
+                    "Cook until bubbles form, flip, and cook until golden brown."
+                ]
+            },
+            {
+                id: 5,
+                title: "Baked Garlic Herb Chicken",
+                category: "Bake",
+                subtitle: "Oven-baked juicy chicken seasoned with herbs and garlic butter.",
+                image: "Garlic-chicken.JPG",
+                prepTime: "15 mins",
+                cookTime: "40 mins",
+                servings: "4 servings",
+                difficulty: "Easy",
+                rating: 4.8,
+                Secret: "Brush with melted butter and Klaiven Seasoning before baking.",
+                ingredients: [
+                    "4 Chicken thighs",
+                    "3 tbsp Melted butter",
+                    "4 cloves Garlic, minced",
+                    "1 tsp Rosemary & Thyme"
+                ],
+                steps: [
+                    "Preheat oven to 400°F (200°C).",
+                    "Combine melted butter, garlic, and herbs.",
+                    "Coat chicken thighs with butter mixture and arrange in baking dish.",
+                    "Bake for 35-40 minutes until skin is crispy and chicken is fully cooked."
+                ]
+            },
+            {
+                id: 6,
+                title: "Japanese Chicken Teriyaki",
+                category: "Asian Food",
+                subtitle: "Sweet and savory glazed chicken served over warm rice.",
+                image: "chicken-teriyaki.JPG",
+                prepTime: "10 mins",
+                cookTime: "15 mins",
+                servings: "3 servings",
+                difficulty: "Easy",
+                rating: 4.9,
+                Secret: "Add Klaiven Liquid Seasoning to teriyaki sauce for extra depth.",
+                ingredients: [
+                    "500g Chicken thigh, boneless",
+                    "3 tbsp Soy sauce & 2 tbsp Mirin",
+                    "1 tbsp Sugar & 1 tsp Sesame seeds"
+                ],
+                steps: [
+                    "Pan-fry chicken skin-side down until golden brown.",
+                    "Mix soy sauce, mirin, and sugar in a bowl.",
+                    "Pour sauce over chicken and simmer until glaze thickens.",
+                    "Slice and garnish with sesame seeds over steamed rice."
+                ]
+            },
+            {
+                id: 8,
+                title: "Classic American Cheeseburger",
+                category: "American Food",
+                subtitle: "Juicy beef patty topped with melted cheddar cheese on toasted buns.",
+                image: "burger.JPG",
+                prepTime: "10 mins",
+                cookTime: "10 mins",
+                servings: "2 servings",
+                difficulty: "Easy",
+                rating: 4.7,
+                Secret: "Season beef patties with Klaiven Seasoning before grilling.",
+                ingredients: [
+                    "300g Ground beef patty",
+                    "2 slices Cheddar cheese",
+                    "2 Burger buns & Burger sauce",
+                    "Lettuce, tomato, and onion slices"
+                ],
+                steps: [
+                    "Form beef into two patties and season with salt and pepper.",
+                    "Sear patties on a hot skillet for 3-4 mins per side.",
+                    "Place cheese slices on top to melt.",
+                    "Assemble buns with lettuce, tomato, patty, and sauce."
+                ]
+            }
+        ];
+
+        const categories = [
+            "All",
+            "Filipino Favorites",
+            "Breakfast",
+            "Fried",
+            "Bake",
+            "Asian Food",
+            "American Food"
+        ];
+
+        let activeCategory = "All";
+        let searchQuery = "";
+        let showingOnlySaved = false;
+        let savedRecipeIds = JSON.parse(localStorage.getItem('knorr_saved_recipes') || '[]');
+
+        document.addEventListener("DOMContentLoaded", () => {
+            renderCategories();
+            renderRecipes();
+            updateSavedCount();
+            setupEventListeners();
+        });
+
+        function renderCategories() {
+            const container = document.getElementById('categoryContainer');
+            container.innerHTML = categories.map(cat => {
+                const isActive = cat === activeCategory && !showingOnlySaved;
+                return `
+                    <button data-cat="${cat}" 
+                        class="cat-filter-btn px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition whitespace-nowrap ${
+                            isActive 
+                            ? 'bg-knorr-green text-white shadow-md' 
+                            : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                        }">
+                        ${cat}
+                    </button>
+                `;
+            }).join('');
+
+            document.querySelectorAll('.cat-filter-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    filterCategory(e.currentTarget.getAttribute('data-cat'));
+                });
+            });
+        }
+
+        function renderRecipes() {
+            const grid = document.getElementById('recipeCardsGrid');
+            const noResults = document.getElementById('noResults');
+            
+            let filtered = recipes.filter(r => {
+                const matchesCategory = (activeCategory === "All") || (r.category === activeCategory);
+                const matchesSearch = r.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                      r.subtitle.toLowerCase().includes(searchQuery.toLowerCase());
+                const matchesSaved = showingOnlySaved ? savedRecipeIds.includes(r.id) : true;
+                return matchesCategory && matchesSearch && matchesSaved;
+            });
+
+            document.getElementById('recipeCount').innerText = `Showing ${filtered.length} recipe${filtered.length === 1 ? '' : 's'}`;
+
+            if (filtered.length === 0) {
+                grid.innerHTML = "";
+                noResults.classList.remove('hidden');
+                return;
+            }
+
+            noResults.classList.add('hidden');
+            grid.innerHTML = filtered.map(r => {
+                const isSaved = savedRecipeIds.includes(r.id);
+                return `
+                    <div class="bg-white rounded-3xl overflow-hidden shadow-sm border border-gray-100 recipe-card flex flex-col justify-between">
+                        <div>
+                            <div class="relative h-48 w-full overflow-hidden">
+                                <img src="${r.image}" alt="${r.title}" class="w-full h-full object-cover">
+                                <span class="absolute top-3 left-3 bg-knorr-green text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
+                                    ${r.category}
+                                </span>
+                                <button data-save-id="${r.id}" class="save-btn absolute top-3 right-3 bg-white/80 hover:bg-white text-gray-700 w-8 h-8 rounded-full flex items-center justify-center shadow transition">
+                                    <i class="${isSaved ? 'fa-solid text-knorr-accent' : 'fa-regular'} fa-heart text-sm"></i>
+                                </button>
+                            </div>
+                            <div class="p-5">
+                                <div class="flex items-center space-x-1 text-amber-400 text-xs font-bold mb-1">
+                                    <i class="fa-solid fa-star"></i>
+                                    <span class="text-gray-700 ml-1">${r.rating || 4.8}</span>
+                                </div>
+                                <h3 class="font-heading text-lg font-bold text-gray-900">${r.title}</h3>
+                                <p class="text-xs text-gray-500 mt-1 line-clamp-2">${r.subtitle}</p>
+                            </div>
+                        </div>
+                        <div class="px-5 pb-5 pt-0 flex items-center justify-between border-t border-gray-50 mt-2">
+                            <div class="text-xs text-gray-500 font-medium">
+                                <i class="fa-regular fa-clock mr-1"></i>${r.cookTime}
+                            </div>
+                            <button data-recipe-id="${r.id}" class="view-recipe-btn bg-knorr-lightGreen hover:bg-knorr-green hover:text-white text-knorr-darkGreen font-bold px-4 py-2 rounded-full text-xs transition">
+                                View Recipe
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            document.querySelectorAll('.view-recipe-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    console.log("Button clicked!"); // <-- Add this test line
+                    const id = parseInt(e.currentTarget.getAttribute('data-recipe-id'));
+                    openModal(id);
+                });
+            });
+
+            document.querySelectorAll('.save-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    const id = parseInt(e.currentTarget.getAttribute('data-save-id'));
+                    toggleSaveRecipe(id);
+                });
+            });
+        }
+
+        function setupEventListeners() {
+            document.getElementById('brandBtn').addEventListener('click', () => filterCategory('All'));
+            
+            document.getElementById('searchInput').addEventListener('keyup', (e) => {
+                searchQuery = e.target.value;
+                renderRecipes();
+            });
+
+            document.getElementById('mobileSearchInput').addEventListener('keyup', (e) => {
+                searchQuery = e.target.value;
+                renderRecipes();
+            });
+
+            document.getElementById('savedBtn').addEventListener('click', toggleSavedFilter);
+            document.getElementById('heroCrispyBtn').addEventListener('click', () => filterCategory('Fried'));
+            document.getElementById('resetFiltersBtn').addEventListener('click', resetFilters);
+            document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+            document.getElementById('doneCookingBtn').addEventListener('click', closeModal);
+
+            document.querySelectorAll('.footer-cat-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    filterCategory(e.currentTarget.getAttribute('data-cat'));
+                });
+            });
+
+            const modal = document.getElementById('recipeModal');
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+        }
+
+        function filterCategory(cat) {
+            activeCategory = cat;
+            showingOnlySaved = false;
+            document.getElementById('sectionTitle').innerText = cat === "All" ? "All Recipes" : cat;
+            renderCategories();
+            renderRecipes();
+        }
+
+        function resetFilters() {
+            activeCategory = "All";
+            searchQuery = "";
+            showingOnlySaved = false;
+            document.getElementById('searchInput').value = "";
+            document.getElementById('mobileSearchInput').value = "";
+            document.getElementById('sectionTitle').innerText = "All Recipes";
+            renderCategories();
+            renderRecipes();
+        }
+
+        function toggleSavedFilter() {
+            showingOnlySaved = !showingOnlySaved;
+            document.getElementById('sectionTitle').innerText = showingOnlySaved ? "Saved Recipes" : activeCategory;
+            renderCategories();
+            renderRecipes();
+        }
+
+        function toggleSaveRecipe(id) {
+            if (savedRecipeIds.includes(id)) {
+                savedRecipeIds = savedRecipeIds.filter(item => item !== id);
+            } else {
+                savedRecipeIds.push(id);
+            }
+            localStorage.setItem('knorr_saved_recipes', JSON.stringify(savedRecipeIds));
+            updateSavedCount();
+            renderRecipes();
+        }
+
+        function updateSavedCount() {
+            document.getElementById('savedCount').innerText = savedRecipeIds.length;
+        }
+
+        function openModal(id) {
+            const recipe = recipes.find(r => r.id === id);
+            if (!recipe) return;
+
+            document.getElementById('modalImg').src = recipe.image;
+            document.getElementById('modalCategory').innerText = recipe.category;
+            document.getElementById('modalTitle').innerText = recipe.title;
+            document.getElementById('modalSubtitle').innerText = recipe.subtitle;
+            document.getElementById('modalPrep').innerText = recipe.prepTime;
+            document.getElementById('modalCook').innerText = recipe.cookTime;
+            document.getElementById('modalServings').innerText = recipe.servings;
+            document.getElementById('modalDifficulty').innerText = recipe.difficulty;
+            document.getElementById('modalKnorrSecret').innerText = recipe.Secret || recipe.knorrSecret || "Season with love and Klaiven products.";
+
+            const ingredientsList = document.getElementById('modalIngredients');
+            ingredientsList.innerHTML = recipe.ingredients.map((ing, idx) => `
+                <li class="flex items-start space-x-2">
+                    <input type="checkbox" id="ing-${idx}" class="mt-1 rounded text-knorr-green focus:ring-knorr-green cursor-pointer">
+                    <label for="ing-${idx}" class="text-gray-700 cursor-pointer">${ing}</label>
+                </li>
+            `).join('');
+
+            const stepsList = document.getElementById('modalSteps');
+            stepsList.innerHTML = recipe.steps.map((step, idx) => `
+                <li class="flex space-x-3">
+                    <span class="bg-knorr-green text-white font-bold text-xs w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5">
+                        ${idx + 1}
+                    </span>
+                    <p class="text-sm text-gray-700 leading-relaxed">${step}</p>
+                </li>
+            `).join('');
+
+            const modal = document.getElementById('recipeModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('recipeModal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+    </script>
+</body>
+</html>

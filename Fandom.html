@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-950 text-slate-100">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- INSERT YOUR WIKI TITLE HERE -->
+    <title>Klaiven Kitchen Wiki | Fandom</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        fandom: {
+                            accent: '#fa005a',
+                            hover: '#d6004c',
+                            dark: '#0e1117',
+                            card: '#161b22',
+                            border: '#30363d',
+                            yellow: '#ffc500'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        html { scroll-behavior: smooth; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0e1117; }
+        ::-webkit-scrollbar-thumb { background: #30363d; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #fa005a; }
+    </style>
+</head>
+<body class="min-h-full flex flex-col font-sans text-slate-200 bg-slate-950 antialiased selection:bg-fandom-accent selection:text-white">
+
+    <!-- GLOBAL TOP NAVBAR -->
+    <header class="sticky top-0 z-50 bg-fandom-dark border-b border-fandom-border shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 gap-4">
+                
+                <!-- Logo & Brand -->
+                <div class="flex items-center gap-6">
+                    <a href="#" class="flex items-center gap-2 group">
+                        <div class="w-9 h-9 rounded-lg bg-fandom-accent flex items-center justify-center font-black text-xl text-white shadow-md shadow-fandom-accent/30 group-hover:scale-105 transition-transform">
+                            F
+                        </div>
+                        <span class="font-black text-xl tracking-wider text-white hidden sm:inline">FANDOM<span class="text-fandom-accent">.</span></span>
+                    </a>
+                    
+                    <!-- Navigation Tabs -->
+                    <nav class="hidden md:flex items-center gap-1">
+                        <button onclick="switchTab('explore')" id="tab-explore" class="px-3 py-2 rounded-md text-sm font-semibold text-white bg-slate-800 transition-colors">
+                            Wiki Directory
+                        </button>
+                        <button onclick="switchTab('article')" id="tab-article" class="px-3 py-2 rounded-md text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors">
+                            Read Wiki Article
+                        </button>
+                    </nav>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="flex-1 max-w-md relative">
+                    <div class="relative">
+                        <!-- INSERT YOUR SEARCH PLACEHOLDER TEXT HERE -->
+                        <input type="text" id="globalSearch" placeholder="Search Klaiven Kitchen Wiki..." 
+                               onkeyup="filterCards()" 
+                               class="w-full bg-slate-900 text-slate-200 text-sm rounded-full pl-10 pr-10 py-2 border border-fandom-border focus:outline-none focus:border-fandom-accent focus:ring-1 focus:ring-fandom-accent transition-all placeholder-slate-500">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-2.5 text-slate-500 text-sm"></i>
+                        <button onclick="clearSearch()" id="clearSearchBtn" class="hidden absolute right-3 top-2.5 text-slate-400 hover:text-white">
+                            <i class="fa-solid fa-xmark text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Reader Badge -->
+                <div class="flex items-center gap-3">
+                    <span class="text-xs font-semibold text-slate-400 bg-slate-900 border border-fandom-border px-3 py-1.5 rounded-full flex items-center gap-1.5">
+                        <i class="fa-solid fa-book-open text-fandom-accent text-xs"></i> Reader Mode
+                    </span>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- COMMUNITY SUB-HEADER HERO BANNER -->
+    <div class="relative bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border-b border-fandom-border overflow-hidden">
+        <!-- INSERT YOUR HERO BANNER BACKGROUND IMAGE URL IN STYLE BELOW -->
+        <div class="absolute inset-0 bg-cover bg-center opacity-20 mix-blend-overlay" style="background-image: url('https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=1600&q=80');"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+            
+            <div class="flex items-center gap-5 text-center md:text-left">
+                <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-slate-900 border-2 border-fandom-accent p-1 shadow-2xl flex-shrink-0 mx-auto md:mx-0">
+                    <!-- INSERT YOUR WIKI LOGO / ICON IMAGE HERE -->
+                    <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=300&q=80" alt="Klaiven Kitchen Logo" class="w-full h-full object-cover rounded-xl">
+                </div>
+                <div>
+                    <div class="flex items-center justify-center md:justify-start gap-2">
+                        <!-- INSERT YOUR WIKI HEADER TITLE HERE -->
+                        <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight">KLAIVEN KITCHEN WIKI</h1>
+                        <span class="bg-fandom-accent/20 text-fandom-accent text-xs font-bold px-2 py-0.5 rounded border border-fandom-accent/30">OFFICIAL ARCHIVE</span>
+                    </div>
+                    <!-- INSERT YOUR WIKI SHORT DESCRIPTION HERE -->
+                    <p class="text-slate-400 text-sm mt-1 max-w-xl">The complete reader encyclopedia and video archive for Klaiven Kitchen episodes and history.</p>
+                    <div class="flex items-center justify-center md:justify-start gap-4 mt-3 text-xs text-slate-400">
+                        <!-- INSERT YOUR STATS HERE -->
+                        <span><i class="fa-solid fa-film text-fandom-accent mr-1"></i> Video Episodes</span>
+                        <span><i class="fa-solid fa-clock text-fandom-accent mr-1"></i> Full History Archive</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full">
+        
+        <!-- SECTION 1: DISCOVER / EXPLORE HUB PAGE -->
+        <div id="view-explore" class="space-y-8">
+            
+            <!-- Category Filter Bar -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-fandom-card p-4 rounded-2xl border border-fandom-border">
+                <div class="flex items-center gap-2 w-full sm:w-auto overflow-x-auto pb-2 sm:pb-0">
+                    <button onclick="filterCategory('all')" class="cat-btn active px-4 py-1.5 rounded-full text-xs font-bold bg-fandom-accent text-white transition-all whitespace-nowrap">All Sections</button>
+                    <button onclick="filterCategory('history')" class="cat-btn px-4 py-1.5 rounded-full text-xs font-bold bg-slate-800 text-slate-400 hover:text-white transition-all whitespace-nowrap">History</button>
+                    <button onclick="filterCategory('episodes')" class="cat-btn px-4 py-1.5 rounded-full text-xs font-bold bg-slate-800 text-slate-400 hover:text-white transition-all whitespace-nowrap">Episodes & Videos</button>
+                </div>
+            </div>
+
+            <!-- Articles Grid -->
+            <div>
+                <h2 class="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-book text-fandom-accent"></i> Main Wiki Topics
+                </h2>
+                
+                <div id="articlesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+                    
+                    <!-- CARD 1: HISTORY -->
+                    <div class="article-card group bg-fandom-card rounded-2xl border border-fandom-border overflow-hidden hover:border-fandom-accent transition-all duration-300 flex flex-col" data-category="history" data-title="History of Klaiven Kitchen">
+                        <div class="relative h-56 overflow-hidden">
+                            <!-- INSERT CARD 1 IMAGE HERE -->
+                            <img src="https://images.unsplash.com/photo-1556910103-1c02745aae4d?auto=format&fit=crop&w=800&q=80" alt="History Image" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3 left-3 bg-fandom-accent text-white text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider">History</span>
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-bold text-xl text-white group-hover:text-fandom-accent transition-colors">History of Klaiven Kitchen</h3>
+                                <p class="text-slate-400 text-xs mt-2 leading-relaxed">Read about the origins, evolution, and milestones of Klaiven Kitchen from its inception to today.</p>
+                            </div>
+                            <div class="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between">
+                                <button onclick="switchTab('article'); scrollToSection('section-history');" class="text-xs font-bold text-fandom-accent hover:underline flex items-center gap-1">
+                                    Read History <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                                </button>
+                                <span class="text-[11px] text-slate-500"><i class="fa-regular fa-bookmark mr-1"></i> Archive Doc</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CARD 2: EPISODES & VIDEOS -->
+                    <div class="article-card group bg-fandom-card rounded-2xl border border-fandom-border overflow-hidden hover:border-fandom-accent transition-all duration-300 flex flex-col" data-category="episodes" data-title="Episode 1: The Pilot and Episode Videos">
+                        <div class="relative h-56 overflow-hidden">
+                            <!-- INSERT CARD 2 IMAGE HERE -->
+                            <img src="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=800&q=80" alt="Episode Image" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <span class="absolute top-3 left-3 bg-purple-600 text-white text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider">Episodes & Videos</span>
+                        </div>
+                        <div class="p-6 flex-1 flex flex-col justify-between">
+                            <div>
+                                <h3 class="font-bold text-xl text-white group-hover:text-fandom-accent transition-colors">Episode 1: The Pilot & Video Watch</h3>
+                                <p class="text-slate-400 text-xs mt-2 leading-relaxed">Watch Episode 1: The Pilot video and browse through recorded episode media content.</p>
+                            </div>
+                            <div class="mt-6 pt-4 border-t border-slate-800 flex items-center justify-between">
+                                <button onclick="switchTab('article'); scrollToSection('section-episodes');" class="text-xs font-bold text-fandom-accent hover:underline flex items-center gap-1">
+                                    Watch & Read <i class="fa-solid fa-play text-[10px]"></i>
+                                </button>
+                                <span class="text-[11px] text-slate-500"><i class="fa-solid fa-circle-play mr-1"></i> Video Media</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- SECTION 2: ARTICLE PAGE LAYOUT (READ-ONLY) -->
+        <div id="view-article" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- ARTICLE MAIN BODY (Cols 8) -->
+            <article class="lg:col-span-8 bg-fandom-card rounded-2xl border border-fandom-border p-6 sm:p-8 shadow-xl">
+                
+                <!-- Breadcrumbs & Article Title -->
+                <div class="border-b border-fandom-border pb-6">
+                    <div class="flex items-center gap-2 text-xs text-fandom-accent font-semibold tracking-wider uppercase mb-2">
+                        <a href="#" onclick="switchTab('explore')" class="hover:underline">Klaiven Kitchen Wiki</a>
+                        <span>/</span>
+                        <span class="text-slate-400">Main Archive</span>
+                    </div>
+                    <div>
+                        <!-- INSERT MAIN ARTICLE PAGE TITLE HERE -->
+                        <h1 class="text-3xl sm:text-4xl font-black text-white tracking-tight">Klaiven Kitchen</h1>
+                    </div>
+                    <p class="text-slate-400 text-sm mt-3 italic">Documentation on the history and episodes of Klaiven Kitchen.</p>
+                </div>
+
+                <!-- TABLE OF CONTENTS PLACEHOLDER -->
+                <div class="my-6 p-4 rounded-xl bg-slate-900 border border-fandom-border">
+                    <div class="flex items-center justify-between cursor-pointer" onclick="toggleTOC()">
+                        <span class="font-bold text-sm text-white flex items-center gap-2">
+                            <i class="fa-solid fa-list-ul text-fandom-accent"></i> Table of Contents
+                        </span>
+                        <i id="toc-chevron" class="fa-solid fa-chevron-up text-xs text-slate-400 transition-transform"></i>
+                    </div>
+                    <ol id="toc-list" class="mt-3 space-y-1.5 text-sm text-slate-300 pl-4 list-decimal marker:text-fandom-accent">
+                        <li><a href="#section-history" class="hover:text-fandom-accent transition-colors">History of Klaiven Kitchen</a></li>
+                        <li><a href="#section-episodes" class="hover:text-fandom-accent transition-colors">Episode 1: The Pilot & Episode Videos</a></li>
+                    </ol>
+                </div>
+
+                <!-- ARTICLE EDITABLE TEXT CONTENT SECTIONS -->
+                <div class="prose prose-invert max-w-none space-y-8 text-slate-300 text-sm leading-relaxed">
+                    
+                    <!-- SECTION 1: HISTORY -->
+                    <section id="section-history" class="scroll-mt-24">
+                        <h2 class="text-xl font-bold text-white border-b border-fandom-border pb-2 mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-landmark text-fandom-accent"></i> History of Klaiven Kitchen
+                        </h2>
+                        
+                        <!-- INSERT YOUR HISTORY TEXT HERE -->
+                        <div class="space-y-4">
+                            <p>
+                                Write the history of Klaiven Kitchen here. You can explain how it was created, the main events that happened over time, and its background story.
+                            </p>
+                            <p>
+                                Add more details about the timeline, major updates, or key moments in the history of Klaiven Kitchen.
+                            </p>
+                        </div>
+                    </section>
+
+                    <!-- SECTION 2: EPISODE 1 & VIDEO PLAYER -->
+                    <section id="section-episodes" class="scroll-mt-24">
+                        <h2 class="text-xl font-bold text-white border-b border-fandom-border pb-2 mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-film text-fandom-accent"></i> Episode 1: The Pilot & Video Watch
+                        </h2>
+                        
+                        <p class="mb-4">
+                            Below is Episode 1: The Pilot and related episode videos. Select a video from the list below to switch the video player.
+                        </p>
+
+                        <!-- EMBEDDED LOCAL MP4 VIDEO PLAYER CONTAINER -->
+                        <div class="bg-slate-900 border border-fandom-border rounded-2xl p-4 my-6">
+                            <div class="relative w-full aspect-video rounded-xl overflow-hidden bg-black mb-4">
+                                <!-- HTML5 LOCAL MP4 VIDEO PLAYER -->
+                                <video id="mainVideoPlayer" 
+                                       class="w-full h-full object-contain" 
+                                       controls 
+                                       preload="metadata"
+                                       poster="https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&w=1200&q=80">
+                                    <source id="mp4Source" src="episode1.mp4" type="video/mp4">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                            
+                            <div class="flex items-center justify-between px-1">
+                                <div>
+                                    <h4 id="videoTitle" class="font-bold text-white text-base">Episode 1: The Pilot</h4>
+                                    <p id="videoDesc" class="text-xs text-slate-400">Local video file: episode1.mp4</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- EPISODE VIDEO SELECTION LIST -->
+                        <div class="space-y-3">
+                            <h3 class="font-bold text-sm text-white">Select Episode MP4 Video:</h3>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                
+                                <!-- VIDEO ITEM 1 (Pilot MP4) -->
+                                <button onclick="changeVideo('episode1.mp4', 'Episode 1: The Pilot', 'Local video file: episode1.mp4')" 
+                                        class="p-3 bg-slate-900 hover:bg-slate-800 border border-fandom-border hover:border-fandom-accent rounded-xl text-left transition-all flex items-center gap-3 group">
+                                    <div class="w-12 h-12 bg-fandom-accent/20 rounded-lg flex items-center justify-center text-fandom-accent group-hover:scale-110 transition-transform">
+                                        <i class="fa-solid fa-play"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-bold text-white group-hover:text-fandom-accent">Episode 1: The Pilot</p>
+                                        <p class="text-[11px] text-slate-400">Play episode1.mp4</p>
+                                    </div>
+                                </button>
+
+                                <!-- VIDEO ITEM 2 (Extra MP4) -->
+                                <button onclick="changeVideo('episode2.mp4', 'Episode 2: Video Highlight', 'Local video file: episode2.mp4')" 
+                                        class="p-3 bg-slate-900 hover:bg-slate-800 border border-fandom-border hover:border-fandom-accent rounded-xl text-left transition-all flex items-center gap-3 group">
+                                    <div class="w-12 h-12 bg-slate-800 rounded-lg flex items-center justify-center text-slate-400 group-hover:text-fandom-accent transition-transform">
+                                        <i class="fa-solid fa-circle-play"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-xs font-bold text-white group-hover:text-fandom-accent">Episode 2: Video Highlight</p>
+                                        <p class="text-[11px] text-slate-400">Play episode2.mp4</p>
+                                    </div>
+                                </button>
+
+                            </div>
+                        </div>
+
+                    </section>
+
+                </div>
+
+            </article>
+
+            <!-- RIGHT SIDEBAR: ARTICLE INFOBOX -->
+            <aside class="lg:col-span-4 space-y-6">
+                
+                <div class="bg-fandom-card rounded-2xl border border-fandom-border overflow-hidden shadow-xl">
+                    <!-- INSERT INFOBOX HEADER TITLE HERE -->
+                    <div class="bg-slate-900 p-4 border-b border-fandom-border text-center">
+                        <h3 class="font-black text-lg text-white">Klaiven Kitchen</h3>
+                        <span class="text-xs text-fandom-accent font-semibold tracking-wide">"Wiki Fast Facts"</span>
+                    </div>
+                    
+                    <div class="p-4">
+                        <div class="relative h-56 rounded-xl overflow-hidden mb-4 border border-fandom-border">
+                            <!-- INSERT INFOBOX MAIN IMAGE HERE -->
+                            <img src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=600&q=80" alt="Infobox Cover" class="w-full h-full object-cover">
+                        </div>
+
+                        <!-- INFOBOX TABLE / STATS - EDIT VALUES HERE -->
+                        <div class="text-xs space-y-2">
+                            <div class="flex justify-between py-1.5 border-b border-slate-800">
+                                <span class="text-slate-400 font-semibold">Title:</span>
+                                <!-- INSERT VALUE -->
+                                <span class="text-white font-medium">Klaiven Kitchen</span>
+                            </div>
+                            <div class="flex justify-between py-1.5 border-b border-slate-800">
+                                <span class="text-slate-400 font-semibold">First Media:</span>
+                                <!-- INSERT VALUE -->
+                                <span class="text-white font-medium">Episode 1: The Pilot</span>
+                            </div>
+                            <div class="flex justify-between py-1.5 border-b border-slate-800">
+                                <span class="text-slate-400 font-semibold">Type:</span>
+                                <!-- INSERT VALUE -->
+                                <span class="text-fandom-accent font-medium">Series / Archive</span>
+                            </div>
+                            <div class="flex justify-between py-1.5">
+                                <span class="text-slate-400 font-semibold">Wiki Access:</span>
+                                <!-- INSERT VALUE -->
+                                <span class="text-emerald-400 font-medium">Read Only</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </aside>
+
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-fandom-dark border-t border-fandom-border mt-16 py-8 text-center text-xs text-slate-500">
+        <!-- INSERT FOOTER COPYRIGHT / CREDIT HERE -->
+        <p>© Klaiven Kitchen Reader Wiki. All rights reserved.</p>
+           <p>For Recipe go to <a href="Klaivenrecipes.html" style="color: rgb(0, 255, 0);">Klaiven-Kitchen</a></p>
+    </footer>
+
+    <!-- FLOATING CHAT BUTTON & MODAL -->
+    <div class="fixed bottom-6 right-6 z-[9999]" id="chatContainer">
+        <!-- Circular Chat Button -->
+        <button id="chatToggleBtn" onclick="toggleChatModal()" aria-label="Toggle Chat" class="w-14 h-14 bg-fandom-accent hover:bg-fandom-hover text-white rounded-full flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 group cursor-pointer focus:outline-none focus:ring-2 focus:ring-fandom-accent focus:ring-offset-2 focus:ring-offset-slate-950">
+            <i id="chatIcon" class="fa-solid fa-comments text-2xl group-hover:rotate-12 transition-transform"></i>
+        </button>
+
+        <!-- Pop-up Chat Box Panel -->
+        <div id="chatModal" class="hidden fixed bottom-24 right-6 w-[calc(100vw-3rem)] sm:w-96 bg-fandom-card border border-fandom-border rounded-2xl shadow-2xl overflow-hidden flex flex-col h-[480px] max-h-[70vh] z-[9999] transition-all">
+            <!-- Chat Header -->
+            <div class="bg-slate-900 px-4 py-3 border-b border-fandom-border flex items-center justify-between shrink-0">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-full bg-fandom-accent/20 border border-fandom-accent/40 flex items-center justify-center text-fandom-accent text-sm font-bold">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div>
+                        <h4 class="text-xs font-bold text-white">Klaiven Assistant</h4>
+                        <p class="text-[10px] text-emerald-400 flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Online
+                        </p>
+                    </div>
+                </div>
+                <button onclick="toggleChatModal()" class="text-slate-400 hover:text-white text-sm p-1.5 rounded-lg hover:bg-slate-800 transition-colors">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Chat Messages Area -->
+            <div id="chatMessages" class="flex-1 p-4 overflow-y-auto space-y-3 text-xs bg-slate-950/50">
+                <div class="bg-slate-900 border border-fandom-border rounded-2xl rounded-tl-none p-3 text-slate-300 max-w-[85%] leading-relaxed shadow-sm">
+                    Hello! I am the Klaiven Kitchen AI assistant. Ask me anything about the history or episodes!
+                </div>
+            </div>
+
+            <!-- Chat Input Area -->
+            <div class="p-3 bg-slate-900 border-t border-fandom-border flex items-center gap-2 shrink-0">
+                <input type="text" id="chatInput" placeholder="Type a message..." onkeydown="if(event.key === 'Enter') handleSendChat()" class="flex-1 bg-slate-950 text-slate-200 text-xs rounded-xl px-3 py-2.5 border border-fandom-border focus:outline-none focus:border-fandom-accent transition-colors placeholder:text-slate-500">
+                <button onclick="handleSendChat()" class="w-9 h-9 bg-fandom-accent hover:bg-fandom-hover text-white rounded-xl flex items-center justify-center transition-colors shrink-0">
+                    <i class="fa-solid fa-paper-plane text-xs"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- INTERACTIVE JAVASCRIPT LOGIC -->
+    <script>
+        function toggleChatModal() {
+            const modal = document.getElementById('chatModal');
+            const icon = document.getElementById('chatIcon');
+            const isHidden = modal.classList.contains('hidden');
+
+            if (isHidden) {
+                modal.classList.remove('hidden');
+                icon.className = "fa-solid fa-xmark text-2xl transition-transform";
+                // Focus on input when opened
+                setTimeout(() => document.getElementById('chatInput').focus(), 100);
+            } else {
+                modal.classList.add('hidden');
+                icon.className = "fa-solid fa-comments text-2xl group-hover:rotate-12 transition-transform";
+            }
+        }
+
+        // Close chat when clicking outside
+        document.addEventListener('click', function(event) {
+            const container = document.getElementById('chatContainer');
+            const modal = document.getElementById('chatModal');
+            if (!container.contains(event.target) && !modal.classList.contains('hidden')) {
+                toggleChatModal();
+            }
+        });
+
+        function handleSendChat() {
+            const input = document.getElementById('chatInput');
+            const messages = document.getElementById('chatMessages');
+            const text = input.value.trim();
+
+            if (!text) return;
+
+            // Add user message
+            const userMsg = document.createElement('div');
+            userMsg.className = "bg-fandom-accent text-white rounded-2xl rounded-tr-none p-3 max-w-[85%] ml-auto text-xs leading-relaxed shadow-sm";
+            userMsg.innerText = text;
+            messages.appendChild(userMsg);
+
+            input.value = '';
+            messages.scrollTop = messages.scrollHeight;
+
+            // Simple automated response
+            setTimeout(() => {
+                const aiMsg = document.createElement('div');
+                aiMsg.className = "bg-slate-900 border border-fandom-border rounded-2xl rounded-tl-none p-3 text-slate-300 max-w-[85%] text-xs leading-relaxed shadow-sm";
+                aiMsg.innerText = "Thanks for asking! I'm currently in preview mode. You can read all details about Klaiven Kitchen in the main article sections above!";
+                messages.appendChild(aiMsg);
+                messages.scrollTop = messages.scrollHeight;
+            }, 500);
+        }
+
+        function switchTab(tab) {
+            const viewExplore = document.getElementById('view-explore');
+            const viewArticle = document.getElementById('view-article');
+            const tabExplore = document.getElementById('tab-explore');
+            const tabArticle = document.getElementById('tab-article');
+
+            if (tab === 'explore') {
+                viewExplore.classList.remove('hidden');
+                viewArticle.classList.add('hidden');
+                tabExplore.className = "px-3 py-2 rounded-md text-sm font-semibold text-white bg-slate-800 transition-colors";
+                tabArticle.className = "px-3 py-2 rounded-md text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors";
+            } else {
+                viewExplore.classList.add('hidden');
+                viewArticle.classList.remove('hidden');
+                tabArticle.className = "px-3 py-2 rounded-md text-sm font-semibold text-white bg-slate-800 transition-colors";
+                tabExplore.className = "px-3 py-2 rounded-md text-sm font-semibold text-slate-400 hover:text-white hover:bg-slate-800/50 transition-colors";
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        function scrollToSection(id) {
+            setTimeout(() => {
+                const el = document.getElementById(id);
+                if (el) el.scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        }
+
+        function changeVideo(filePath, title, desc) {
+            const player = document.getElementById('mainVideoPlayer');
+            const source = document.getElementById('mp4Source');
+            
+            source.src = filePath;
+            player.load();
+            player.play().catch(e => console.log("Autoplay prevented:", e));
+            
+            document.getElementById('videoTitle').innerText = title;
+            document.getElementById('videoDesc').innerText = desc;
+        }
+
+        function filterCards() {
+            const query = document.getElementById('globalSearch').value.toLowerCase();
+            const cards = document.querySelectorAll('.article-card');
+            const clearBtn = document.getElementById('clearSearchBtn');
+
+            if (query.length > 0) clearBtn.classList.remove('hidden');
+            else clearBtn.classList.add('hidden');
+
+            switchTab('explore');
+
+            cards.forEach(card => {
+                const title = card.getAttribute('data-title').toLowerCase();
+                const category = card.getAttribute('data-category').toLowerCase();
+                if (title.includes(query) || category.includes(query)) {
+                    card.style.display = "flex";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+
+        function clearSearch() {
+            document.getElementById('globalSearch').value = '';
+            filterCards();
+        }
+
+        function filterCategory(cat) {
+            const cards = document.querySelectorAll('.article-card');
+            const buttons = document.querySelectorAll('.cat-btn');
+
+            buttons.forEach(btn => {
+                btn.className = "cat-btn px-4 py-1.5 rounded-full text-xs font-bold bg-slate-800 text-slate-400 hover:text-white transition-all whitespace-nowrap";
+            });
+
+            event.target.className = "cat-btn active px-4 py-1.5 rounded-full text-xs font-bold bg-fandom-accent text-white transition-all whitespace-nowrap";
+
+            cards.forEach(card => {
+                if (cat === 'all' || card.getAttribute('data-category') === cat) {
+                    card.style.display = "flex";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+        }
+
+        function toggleTOC() {
+            const list = document.getElementById('toc-list');
+            const chevron = document.getElementById('toc-chevron');
+            list.classList.toggle('hidden');
+            chevron.classList.toggle('rotate-180');
+        }
+    </script>
+</body>
+</html>
